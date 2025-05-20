@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Tool Title: setTheBox
-# Version: 1.0.0
+# Version: 1.0.1
 # Authors: D4rkAce & Zoyma
 # Last Update: 2025/05/20
 # Description: This tool is made for setting up our environment for solving any HTB machine.
@@ -56,12 +56,11 @@ fi
 
 mkdir "$dir" && cd "$dir"
 mkdir recon exploits loot scripts
-touch help
+touch help users pass
 
 case "$choice" in
     1)
         mkdir bloodhound
-        touch users pass hashes
 
         cat << 'EOT' > help
 Active Directory - Basic Enumeration Guide
