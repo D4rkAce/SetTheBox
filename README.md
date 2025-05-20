@@ -101,7 +101,7 @@ This will generate a structured directory containing:
 - `scripts/`  
 - `bloodhound/` (only for AD)  
 - `users`  
-- `creds`  
+- `pass`  
 - `hashes`  
 - `help` ➜ A text file with useful enumeration commands
 
