@@ -35,6 +35,12 @@ chmod +x setTheBox.sh
 
 If you want to be able to run the script from anywhere by just typing `setthebox` in your terminal, follow these steps:
 
+0. Make sure the script has execution permissions. Run this command once:
+
+```bash
+chmod +x $HOME/SetTheBox/SetTheBox.sh
+```
+
 1. Open your `.zshrc` file (this is the configuration file for your Zsh shell):
 
 ```bash
