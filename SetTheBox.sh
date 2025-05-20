@@ -1,0 +1,155 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Tool Title: setTheBox
+# Version: 1.0.0
+# Authors: D4rkAce & Zoyma
+# Last Update: 2025/05/20
+# Description: This tool is made for setting up our environment for solving any HTB machine.
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m'
+
+cat << "EOF"
+
+███████╗███████╗████████╗████████╗██╗  ██╗███████╗██████╗  ██████╗ ██╗  ██╗
+██╔════╝██╔════╝╚══██╔══╝╚══██╔══╝██║  ██║██╔════╝██╔══██╗██╔═══██╗╚██╗██╔╝
+███████╗█████╗     ██║      ██║   ███████║█████╗  ██████╔╝██║   ██║ ╚███╔╝ 
+╚════██║██╔══╝     ██║      ██║   ██╔══██║██╔══╝  ██╔══██╗██║   ██║ ██╔██╗ 
+███████║███████╗   ██║      ██║   ██║  ██║███████╗██████╔╝╚██████╔╝██╔╝ ██╗
+╚══════╝╚══════╝   ╚═╝      ╚═╝   ╚═╝  ╚═╝╚══════╝╚═════╝  ╚═════╝ ╚═╝  ╚═╝ 
+
+EOF
+
+echo -e "${GREEN}Choose the HTB type:${NC}"
+echo
+echo "  [1] Active Directory"
+echo "  [2] Linux Box"
+echo "  [3] Windows Box"
+echo
+
+read -p "Enter your choice [1-3]: " choice
+
+case "$choice" in
+    1)
+        echo -e "${GREEN}You selected Active Directory.${NC}"
+        ;;
+    2)
+        echo -e "${GREEN}You selected Linux Box.${NC}"
+        ;;
+    3)
+        echo -e "${GREEN}You selected Windows Box.${NC}"
+        ;;
+    *)
+        echo -e "${RED}Invalid choice. Please enter 1, 2, or 3.${NC}"
+        exit 1
+        ;;
+esac
+
+read -p "Machine Name: " dir
+if [ -d "$dir" ]; then
+    echo -e "${YELLOW}Directory already exists. Please remove it or choose another name.${NC}"
+    exit 1
+fi
+
+mkdir "$dir" && cd "$dir"
+mkdir recon exploits loot scripts
+touch help
+
+case "$choice" in
+    1)
+        mkdir bloodhound
+        touch users creds hashes
+
+        cat << 'EOT' > help
+Active Directory - Basic Enumeration Guide
+
+Nmap Port Enumeration
+$ sudo nmap <target_ip> -p- --open -sS --min-rate 500 -vvv -n -Pn
+
+Nmap Service Enumeration
+$ sudo nmap -sCV -p <ports> <target_ip>
+
+Kerbrute Attack
+$ ./kerbrute_linux_amd64 userenum --dc <DC ip> -d <domain> <wordlist>
+
+RPC Enumeration
+$ rpcclient -U "" -N <IP>
+$ rpcclient -U "test" -N <IP> (Enumeration as guest)
+
+SMB Enumeration
+$ smbclient -L <IP> -N
+$ smbclient -L <IP> -U "test"   (Enumeration as guest)
+
+LDAP Enumeration
+$ ldapsearch -x -H ldap://<IP> -D '' -w '' -b "DC=sub,DC=domain"
+
+Kerberoasting
+$ impacket-GetUserSPNs DOMAIN/USERNAME:PASSWORD -request
+
+ASREPRoasting
+$ impacket-GetNPUsers domain.com/ -no-pass -usersfile users.txt
+
+BloodHound Collection
+$ bloodhound-python -u <user> -p <pass> -c ALL -d <domain> -ns <ip>
+EOT
+        ;;
+
+    2)
+        cat << 'EOT' > help
+Linux Box - Basic Enumeration Guide
+
+Nmap Port Scan
+$ sudo nmap <target_ip> -p- --open -sS --min-rate 500 -vvv -n -Pn
+
+Nmap Service Enumeration
+$ sudo nmap -sCV -p <ports> <target_ip>
+
+Check open ports manually
+$ nc -vn <target_ip> <port>
+
+Check for anonymous FTP access
+$ ftp <target_ip>
+Name: anonymous
+Password: anonymous
+
+Enumerate web server (if applicable)
+$ whatweb http://<target_ip>
+$ gobuster dir -u http://<target_ip> -w /usr/share/wordlists/dirb/common.txt
+
+Mount NFS share
+$ showmount -e <target_ip>
+$ mount -t nfs <target_ip>:/share /mnt/nfs
+
+EOT
+        ;;
+
+    3)
+        cat << 'EOT' > help
+Windows Box - Basic Enumeration Guide
+
+Nmap Port Scan
+$ sudo nmap <target_ip> -p- --open -sS --min-rate 500 -vvv -n -Pn
+
+Nmap Service Enumeration
+$ sudo nmap -sCV -p <ports> <target_ip>
+
+SMB Enumeration
+$ smbclient -L <IP> -N
+$ smbclient -L <IP> -U "guest" (Enumeration as guest)
+$ enum4linux-ng <IP>
+
+RPC Enumeration
+$ rpcclient -U "" -N <IP>
+
+WinRM (if port 5985 open)
+$ evil-winrm -i <IP> -u <user> -p <pass>
+
+Check web services
+$ whatweb http://<IP>
+$ gobuster dir -u http://<IP> -w /usr/share/wordlists/dirb/common.txt
+EOT
+        ;;
+esac
