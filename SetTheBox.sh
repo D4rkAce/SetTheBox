@@ -61,7 +61,7 @@ touch help
 case "$choice" in
     1)
         mkdir bloodhound
-        touch users creds hashes
+        touch users pass hashes
 
         cat << 'EOT' > help
 Active Directory - Basic Enumeration Guide
