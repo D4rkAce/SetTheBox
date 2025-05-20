@@ -44,7 +44,7 @@ nano ~/.zshrc
 2. Scroll to the **bottom of the file** and **add this line**:
 
 ```zsh
-alias setthebox="$HOME/SetTheBox/setTheBox.sh"
+alias setthebox="$HOME/SetTheBox/SetTheBox.sh"
 ```
 
 > 📌 Make sure the folder `SetTheBox` is located in your home directory (`$HOME`). If it's in another location, update the path accordingly.
