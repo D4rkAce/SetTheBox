@@ -135,3 +135,10 @@ Depending on your selection, the `help` file will contain:
 ## 👥 Authors  
 - [D4rkAce](https://github.com/D4rkAce)  
 - [Zoyma](https://github.com/Zoyma)
+
+---
+
+## 🔗 Social Media  
+Follow me for more content and updates:
+
+[D4rkAce - Beacons](https://beacons.ai/d4rkace)
