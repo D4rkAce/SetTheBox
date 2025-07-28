@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Tool Title: setTheBox
+# Tool Title: SetTheBox
 # Version: 1.0.1
 # Authors: D4rkAce & Zoyma
 # Last Update: 2025/05/20
